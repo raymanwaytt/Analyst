@@ -1,0 +1,732 @@
+[
+  {
+    "id": "route-wait",
+    "company_type": "fictional",
+    "company": "Route & Co",
+    "industry": "Online travel",
+    "function": "Customer support",
+    "difficulty": "easy",
+    "theme": "ops",
+    "metric": "Chat support wait time",
+    "direction": "up",
+    "size": "30%",
+    "timeframe": "two weeks",
+    "context": "Route & Co sells flights and hotels across West Africa. Support is chat only, staffed 08:00–20:00 WAT on weekdays, with a thin Saturday crew. The head of customer experience wants a decision before Monday's roster lock.",
+    "ambiguity_type": "missing_denominator",
+    "blind_text": "Chat support wait time is up 30% in two weeks at an online travel agency.",
+    "decision": "Add weekend shifts?",
+    "angles": [
+      {
+        "check": "Did chat volume rise by more than the wait time, or did wait time rise while volume was flat?",
+        "tag": "volume",
+        "keywords": ["volume", "chats", "contacts", "demand", "incoming", "arrivals"]
+      },
+      {
+        "check": "Is wait time the median, the mean, or the share of chats over a threshold? A few stuck chats move the mean.",
+        "tag": "data",
+        "keywords": ["median", "mean", "average", "percentile", "definition", "outlier", "threshold"]
+      },
+      {
+        "check": "Split wait time and volume by weekday versus weekend, and by new booking versus a trip already in progress.",
+        "tag": "time",
+        "keywords": ["weekday", "weekend", "saturday", "sunday", "split", "booking", "in-trip", "existing"]
+      },
+      {
+        "check": "Did handle time per chat rise, or is the same crew simply meeting more chats?",
+        "tag": "supply",
+        "keywords": ["staffing", "handle", "agents", "roster", "headcount", "shifts", "capacity", "aht"]
+      },
+      {
+        "check": "Which contact reasons grew: new bookings, changes, or disruptions on trips already sold?",
+        "tag": "mix",
+        "keywords": ["reason", "disruption", "refund", "cancellation", "segment", "mix", "purpose"]
+      },
+      {
+        "check": "Did one airline, route, or payment failure create a spike that a standing weekend shift would not touch?",
+        "tag": "cause",
+        "keywords": ["airline", "route", "outage", "payment", "failure", "incident", "cause"]
+      }
+    ],
+    "red_herrings": [
+      {
+        "text": "A competitor launched a fare sale the same week.",
+        "why_irrelevant": "The sale matters only if your own chat volume or mix moved. The competitor is not a reason to add shifts.",
+        "keywords": ["competitor", "fare", "sale", "rival"]
+      },
+      {
+        "text": "The app-store rating dipped by a tenth of a point.",
+        "why_irrelevant": "A tenth of a point on a store rating does not tell you whether Saturday is understaffed.",
+        "keywords": ["app-store", "rating", "stars", "review score"]
+      }
+    ],
+    "top_check": {
+      "check": "Split wait time and volume by weekday versus weekend, and by new booking versus a trip already in progress.",
+      "why": "Weekend shifts only help if the queue is actually on the weekend. A weekday spike in disruption chats means the shift adds cost and misses the decision."
+    },
+    "what_would_change_your_mind": "Saturday and Sunday volume up sharply while weekday wait time is flat. That makes the weekend shift the lever. Weekday-only growth kills it.",
+    "teach_me_prompt": "If handle time per chat is unchanged and volume is up only on weekdays, what happens to the case for weekend shifts?",
+    "framings": []
+  },
+  {
+    "id": "cedar-approval",
+    "company_type": "fictional",
+    "company": "Cedar Credit",
+    "industry": "Consumer lending",
+    "function": "Credit risk",
+    "difficulty": "easy",
+    "theme": "fintech-credit",
+    "metric": "Approval rate",
+    "direction": "down",
+    "size": "8 percentage points",
+    "timeframe": "one month",
+    "context": "Cedar Credit lends small naira loans to salaried workers and, as of this month, a new salary-advance product for gig workers. The approval rate on all applications fell from 46% to 38%. The credit head wants to tighten the scorecard before Friday's committee.",
+    "ambiguity_type": "simpsons_slice",
+    "blind_text": "Approval rate on a consumer lender's book fell 8 percentage points in a month.",
+    "decision": "Tighten the scorecard?",
+    "angles": [
+      {
+        "check": "Did the approval rate fall inside each product, or only because a newer, stricter product now makes up more of the pile?",
+        "tag": "mix",
+        "keywords": ["mix", "segment", "product", "gig", "salary", "composition", "share"]
+      },
+      {
+        "check": "What happened to the application count, not just the rate? A smaller, choosier inflow looks like a tighter gate.",
+        "tag": "volume",
+        "keywords": ["applications", "volume", "inflow", "count", "denominator"]
+      },
+      {
+        "check": "Is the 8 point drop early-month noise or a full month of decisions against a stable definition of approval?",
+        "tag": "time",
+        "keywords": ["week", "trend", "daily", "timing", "noise"]
+      },
+      {
+        "check": "Did default or roll-rate on the existing salaried book actually worsen, or is loss flat while the rate fell?",
+        "tag": "finance",
+        "keywords": ["default", "loss", "npl", "roll", "par", "arrears"]
+      },
+      {
+        "check": "Did the score cutoff, bureau feed, or an affordability rule change this month?",
+        "tag": "data",
+        "keywords": ["cutoff", "policy", "scorecard", "definition", "bureau", "rule"]
+      },
+      {
+        "check": "Are gig applications being declined for missing data rather than for risk?",
+        "tag": "cause",
+        "keywords": ["missing", "incomplete", "document", "kyc", "data quality"]
+      }
+    ],
+    "red_herrings": [
+      {
+        "text": "A rival lender advertised 'instant approval' on Instagram.",
+        "why_irrelevant": "A rival's advert does not tell you whether your own rate fell because of mix. Check your inflow before you react to their creative.",
+        "keywords": ["instagram", "rival", "advert", "campaign"]
+      },
+      {
+        "text": "The CEO mentioned the rate in a town hall and called it a concern.",
+        "why_irrelevant": "Attention from the CEO is not evidence. The mix of products is.",
+        "keywords": ["town hall", "ceo", "concern"]
+      }
+    ],
+    "top_check": {
+      "check": "Did the approval rate fall inside each product, or only because a newer, stricter product now makes up more of the pile?",
+      "why": "Tightening the salaried scorecard punishes a book that may be fine. If only the new gig product is pulling the blend down, the decision is about that product, not the whole gate."
+    },
+    "what_would_change_your_mind": "The salaried approval rate fell on its own, with defaults rising on recent cohorts. That is a real tightening case. A mix shift with flat losses kills it.",
+    "teach_me_prompt": "If the salaried approval rate is flat and only the new gig product is stricter, what should happen to the scorecard decision?",
+    "framings": []
+  },
+  {
+    "id": "northwind-cpa",
+    "company_type": "fictional",
+    "company": "Northwind Shop",
+    "industry": "Online retail",
+    "function": "Growth",
+    "difficulty": "easy",
+    "theme": "growth-marketing",
+    "metric": "Cost per acquired customer",
+    "direction": "up",
+    "size": "doubled",
+    "timeframe": "ten days",
+    "context": "Northwind Shop sells home goods in Lagos and Abuja. Paid social cost per acquired customer doubled over ten days. The growth lead wants to pause the campaign at tomorrow's standup. Last week they also switched the attribution window from 7 days to 1 day.",
+    "ambiguity_type": "definition_change",
+    "blind_text": "Cost per acquired customer doubled in ten days at an online retailer.",
+    "decision": "Pause the campaign?",
+    "angles": [
+      {
+        "check": "Did the definition of an acquired customer, or the attribution window, change during the ten days?",
+        "tag": "data",
+        "keywords": ["attribution", "window", "definition", "pixel", "counted", "tracking"]
+      },
+      {
+        "check": "Did spend rise, did new customers fall, or did both move?",
+        "tag": "volume",
+        "keywords": ["spend", "customers", "volume", "acquisitions", "denominator"]
+      },
+      {
+        "check": "Is the doubling in one city or one ad set, or everywhere?",
+        "tag": "mix",
+        "keywords": ["city", "lagos", "abuja", "ad set", "campaign", "segment"]
+      },
+      {
+        "check": "Did cost per session rise as well, or only cost per attributed customer?",
+        "tag": "finance",
+        "keywords": ["cpc", "cpm", "session", "cost", "auction"]
+      },
+      {
+        "check": "When did the jump start, relative to the attribution change and any creative swap?",
+        "tag": "time",
+        "keywords": ["when", "start", "date", "creative", "changed"]
+      },
+      {
+        "check": "Are new customers still paying back inside the usual window, on a 7-day view?",
+        "tag": "cause",
+        "keywords": ["payback", "repeat", "revenue", "cohort", "roas"]
+      }
+    ],
+    "red_herrings": [
+      {
+        "text": "A national holiday fell in the middle of the ten days.",
+        "why_irrelevant": "A holiday can move volume. It does not explain a definition change you already made to the attribution window.",
+        "keywords": ["holiday", "public holiday", "festive"]
+      },
+      {
+        "text": "The brand account gained followers.",
+        "why_irrelevant": "Followers are not acquired customers, and they do not tell you whether the pixel change rewrote the cost.",
+        "keywords": ["followers", "brand account", "social"]
+      }
+    ],
+    "top_check": {
+      "check": "Did the definition of an acquired customer, or the attribution window, change during the ten days?",
+      "why": "Pausing a campaign because a shorter window stopped counting customers you still acquired is a self-inflicted metric. Compare the same window before you turn spend off."
+    },
+    "what_would_change_your_mind": "On a fixed 7-day window, cost per customer still doubled and payback broke. That is a real pause. A change that exists only in the 1-day view kills the pause.",
+    "teach_me_prompt": "If the 7-day cost per customer is flat and only the new 1-day window doubled, what happens to the case for pausing spend?",
+    "framings": []
+  },
+  {
+    "id": "kano-pilot",
+    "company_type": "fictional",
+    "company": "Fieldnote Finance",
+    "industry": "Consumer lending",
+    "function": "Credit risk",
+    "difficulty": "medium",
+    "theme": "fintech-credit",
+    "metric": "Default rate",
+    "direction": "down",
+    "size": "2% versus a 6% book rate",
+    "timeframe": "ninety loans",
+    "context": "Fieldnote Finance piloted a trader loan in one Kano market. Ninety loans, 60 days on book, and a 2% default rate against 6% on the national book. The product lead wants to open six more cities this quarter.",
+    "ambiguity_type": "small_sample",
+    "blind_text": "A new-city loan pilot shows a 2% default rate against a 6% book rate, on ninety loans.",
+    "decision": "Roll the product out to six more cities this quarter?",
+    "angles": [
+      {
+        "check": "How many defaults is 2% of ninety loans, and what range is still plausible if the true rate is the book rate?",
+        "tag": "data",
+        "keywords": ["sample", "ninety", "interval", "noise", "count", "base"]
+      },
+      {
+        "check": "Have those loans had time to default, or are most of them still inside a grace period?",
+        "tag": "time",
+        "keywords": ["seasoning", "maturity", "grace", "vintage", "days on book"]
+      },
+      {
+        "check": "Who was approved in the pilot: the agent's best customers, or a representative slice of the city?",
+        "tag": "mix",
+        "keywords": ["selection", "agent", "cherry", "representative", "segment"]
+      },
+      {
+        "check": "What happens to loss if two more loans default next month? Does the story survive one bad week?",
+        "tag": "finance",
+        "keywords": ["loss", "sensitivity", "default", "naira", "provision"]
+      },
+      {
+        "check": "Is collection capacity in a new city actually available, or is the pilot using the founder's own follow-up?",
+        "tag": "supply",
+        "keywords": ["collection", "capacity", "staff", "founder", "ops"]
+      },
+      {
+        "check": "Did the pilot run in a season when that market is flush, unlike the months you would expand into?",
+        "tag": "external",
+        "keywords": ["season", "harvest", "market", "calendar", "external"]
+      }
+    ],
+    "red_herrings": [
+      {
+        "text": "The pilot city has a new road the governor opened last month.",
+        "why_irrelevant": "A road is not evidence that ninety lightly seasoned loans will behave in six other cities.",
+        "keywords": ["governor", "road", "infrastructure"]
+      },
+      {
+        "text": "The local agent posted a testimonial video.",
+        "why_irrelevant": "A testimonial does not widen a sample. It is marketing.",
+        "keywords": ["testimonial", "video", "agent post"]
+      }
+    ],
+    "top_check": {
+      "check": "Have those loans had time to default, or are most of them still inside a grace period?",
+      "why": "A 2% rate on unseasoned loans is not a city that works. Rolling out on grace-period silence scales a story that has not been allowed to fail yet."
+    },
+    "what_would_change_your_mind": "The same cohort, fully through its first due cycle, still near 2%, on customers the agent did not hand-pick. That supports a careful second city, not six at once.",
+    "teach_me_prompt": "If most of the ninety loans are still inside the grace period, how does that change the case for six new cities?",
+    "framings": []
+  },
+  {
+    "id": "gtbank-finacle",
+    "company_type": "real",
+    "company": "GTBank",
+    "industry": "Retail banking",
+    "function": "Operations",
+    "difficulty": "medium",
+    "theme": "ops",
+    "metric": "Unsettled customer transfers",
+    "direction": "up",
+    "size": "still being reported a week later",
+    "timeframe": "the week after 14 October 2024",
+    "context": "GTBank moved retail customers onto Finacle, a new core banking platform, over the weekend of 11–14 October 2024. The bank told customers channels were back. A week later people were still describing debits with no matching credit, and transaction history they could not see. Numbers here are illustrative of that shape, not a measured failure rate.",
+    "ambiguity_type": "definition_change",
+    "blind_text": "A retail bank says digital channels are restored after a core migration. Customers are still reporting debits that never arrive.",
+    "decision": "Tell customers digital channels are restored and close the incident?",
+    "angles": [
+      {
+        "check": "What does restored mean: the app opens, or a transfer debits and credits the other account the same day?",
+        "tag": "data",
+        "keywords": ["definition", "restored", "settled", "successful", "status", "meaning"]
+      },
+      {
+        "check": "How many transfers are hanging, against how many were attempted, by channel?",
+        "tag": "volume",
+        "keywords": ["volume", "count", "attempted", "hanging", "rate", "denominator"]
+      },
+      {
+        "check": "Which channel is failing: app, USSD, cards, or transfers to other banks?",
+        "tag": "mix",
+        "keywords": ["channel", "ussd", "card", "nip", "app", "segment"]
+      },
+      {
+        "check": "Are today's attempts failing, or is this a backlog from the migration weekend?",
+        "tag": "time",
+        "keywords": ["backlog", "today", "weekend", "still", "new", "trend"]
+      },
+      {
+        "check": "Is the core posting, while the channels that talk to it are only half integrated?",
+        "tag": "supply",
+        "keywords": ["integration", "channel", "core", "finacle", "posting", "capacity"]
+      },
+      {
+        "check": "What is the naira value stuck, and how old is the oldest hanging debit?",
+        "tag": "finance",
+        "keywords": ["value", "naira", "amount", "oldest", "exposure"]
+      }
+    ],
+    "red_herrings": [
+      {
+        "text": "Other Nigerian banks also had a rough October.",
+        "why_irrelevant": "Peer pain does not tell you whether GTBank's own transfers are settling. It is context, not a close-the-incident argument.",
+        "keywords": ["other banks", "zenith", "peers", "industry-wide"]
+      },
+      {
+        "text": "The new platform was described as a year in the making.",
+        "why_irrelevant": "How long the project took does not measure whether a debit finds a credit today.",
+        "keywords": ["year in the making", "project length", "roadmap"]
+      }
+    ],
+    "top_check": {
+      "check": "What does restored mean: the app opens, or a transfer debits and credits the other account the same day?",
+      "why": "Closing the incident because the app loads leaves hanging debits in place. If restored only means the channel is up, the decision customers feel is still open."
+    },
+    "what_would_change_your_mind": "A same-day settlement rate back to the pre-migration baseline, on new attempts, with the backlog explicitly queued and dated. Until that exists, restored is a different word than the one customers are using.",
+    "based_on": "GTBank's October 2024 migration from Basis to Finacle, and the week of failed or hanging transfers that followed the bank's restoration message.",
+    "source": {
+      "title": "Why GTBank has struggled with its switch to Finacle",
+      "outlet": "TechCabal",
+      "date": "2024-10-22",
+      "url": "https://techcabal.com/2024/10/22/gtbank-core-banking-switch/"
+    },
+    "teach_me_prompt": "If the app opens but new transfers still debit without a matching credit, what happens to the decision to close the incident?",
+    "framings": []
+  },
+  {
+    "id": "mtn-base",
+    "company_type": "real",
+    "company": "MTN Nigeria",
+    "industry": "Telecom",
+    "function": "Commercial",
+    "difficulty": "medium",
+    "theme": "mixed",
+    "metric": "Service revenue versus total subscribers",
+    "direction": "revenue up, subscribers down",
+    "size": "revenue +33.6%, subscribers −0.9% to 77.0 million",
+    "timeframe": "nine months to 30 September 2024",
+    "context": "MTN Nigeria reported service revenue of N2.4 trillion, up 33.6%, while total subscribers fell 0.9% to 77.0 million after the NIN-SIM disconnections. Active data users rose 5.1% to 45.3 million. The same release says 17.5 million revenue-generating lines were disconnected, with a net base decrease of 2.7 million after reconnections. Figures are the company's reported ones; the decision below is the training question, not a claim about what MTN actually did.",
+    "ambiguity_type": "conflicting_metrics",
+    "blind_text": "A mobile operator's service revenue is up a third while total subscribers edge down, after a regulator forced lines off the network.",
+    "decision": "Tell the board the customer base is healthy because revenue grew?",
+    "angles": [
+      {
+        "check": "Who left: low-spend voice lines, or data users the revenue actually depends on?",
+        "tag": "mix",
+        "keywords": ["mix", "data users", "voice", "segment", "arpu", "who left"]
+      },
+      {
+        "check": "How much of the revenue growth is price and inflation, rather than usage?",
+        "tag": "finance",
+        "keywords": ["price", "tariff", "inflation", "arpu", "yield"]
+      },
+      {
+        "check": "What is the denominator: closing subscribers, or revenue-generating lines after reconnection?",
+        "tag": "data",
+        "keywords": ["definition", "active", "closing", "revenue-generating", "reported"]
+      },
+      {
+        "check": "Did usage per remaining user rise enough to explain the revenue, or is it mostly price?",
+        "tag": "volume",
+        "keywords": ["traffic", "usage", "volume", "per user", "gig"]
+      },
+      {
+        "check": "Are disconnected lines still coming back, or has the base stopped falling?",
+        "tag": "time",
+        "keywords": ["reconnect", "trend", "quarter", "churn", "still"]
+      },
+      {
+        "check": "How much of the loss was the NIN rule, versus customers choosing another network?",
+        "tag": "external",
+        "keywords": ["nin", "regulator", "ncc", "porting", "competitor"]
+      }
+    ],
+    "red_herrings": [
+      {
+        "text": "EBITDA margin fell sharply in the same release.",
+        "why_irrelevant": "Margin is a real business fact, mostly forex and cost. It does not answer whether the subscriber base under the revenue is healthy.",
+        "keywords": ["ebitda", "margin", "forex", "profit"]
+      },
+      {
+        "text": "MoMo wallets fell 21.8%.",
+        "why_irrelevant": "The wallet drop matters for fintech. It is a different base from the mobile subscribers the board question is about.",
+        "keywords": ["momo", "wallet", "psb", "fintech"]
+      }
+    ],
+    "top_check": {
+      "check": "Who left: low-spend voice lines, or data users the revenue actually depends on?",
+      "why": "Revenue can rise on price while the valuable base is quietly thinner. If the lines that left were low-spend and data users grew, healthy is a mix story. If data users are the ones barred, the revenue print is the wrong comfort."
+    },
+    "what_would_change_your_mind": "Data users and revenue-generating lines both down, with growth explained by tariff. That kills 'the base is healthy.' The opposite split supports it.",
+    "based_on": "MTN Nigeria's unaudited nine-month 2024 results and the NIN-SIM disconnections described in that release.",
+    "source": {
+      "title": "MTN Nigeria unaudited results for the nine months ended 30 September 2024",
+      "outlet": "MTN Nigeria / Nigerian Exchange",
+      "date": "2024-10-30",
+      "url": "https://doclib.ngxgroup.com/Financial_NewsDocs/42547_MTN_NIGERIA_COMMUNICATIONS_PLC-MTN_NIGERIA_EARNINGS_RELEASE_Q3_2024_CORPORATE_ACTIONS_OCTOBER_2024.pdf"
+    },
+    "teach_me_prompt": "If the subscribers who left were low-spend voice lines and data users rose, how does that change the claim that the base is unhealthy?",
+    "framings": []
+  },
+  {
+    "id": "harbour-nps",
+    "company_type": "fictional",
+    "company": "Harbour Air",
+    "industry": "Airline",
+    "function": "Customer experience",
+    "difficulty": "medium",
+    "theme": "ops",
+    "metric": "NPS versus repeat booking rate",
+    "direction": "NPS up, repeat booking down",
+    "size": "NPS +12 points, 90-day repeat −4 points",
+    "timeframe": "one quarter",
+    "context": "Harbour Air flies regional routes in West Africa. Post-flight NPS rose 12 points after a new cabin script. The share of passengers who book again within 90 days fell 4 points. The CX lead wants the NPS movement on the first slide of the board pack, and no change to the schedule.",
+    "ambiguity_type": "conflicting_metrics",
+    "blind_text": "A carrier's post-trip recommendation score is up 12 points. Repeat booking within 90 days is down.",
+    "decision": "Lead the board pack with the NPS gain and leave the schedule alone?",
+    "angles": [
+      {
+        "check": "Who is answering the survey, and did response rate fall among delayed passengers?",
+        "tag": "data",
+        "keywords": ["response", "survey", "bias", "sample", "who answered"]
+      },
+      {
+        "check": "Did repeat booking fall on the routes where NPS rose, or somewhere else?",
+        "tag": "mix",
+        "keywords": ["route", "segment", "where", "split", "cabin"]
+      },
+      {
+        "check": "Did on-time performance or cancellations move the opposite way to the survey?",
+        "tag": "cause",
+        "keywords": ["otp", "on-time", "cancellation", "delay", "cause"]
+      },
+      {
+        "check": "Is the repeat window comparable, or did a schedule cut remove the flight people would have rebooked?",
+        "tag": "supply",
+        "keywords": ["schedule", "frequency", "capacity", "seats", "cut"]
+      },
+      {
+        "check": "Did fare or competitor capacity change the rebooking decision for reasons the cabin script cannot touch?",
+        "tag": "external",
+        "keywords": ["fare", "price", "competitor", "capacity"]
+      },
+      {
+        "check": "Is the NPS gain a one-week novelty after the script launched, or a full quarter?",
+        "tag": "time",
+        "keywords": ["launch", "week", "quarter", "novelty", "trend"]
+      }
+    ],
+    "red_herrings": [
+      {
+        "text": "The new crew uniforms tested well in a focus group.",
+        "why_irrelevant": "A focus group on uniforms does not reconcile a survey gain with fewer repeat bookings.",
+        "keywords": ["uniform", "focus group", "wardrobe"]
+      },
+      {
+        "text": "Instagram comments on the new safety video were positive.",
+        "why_irrelevant": "Comments on a video are not passengers who bought again.",
+        "keywords": ["instagram", "safety video", "comments"]
+      }
+    ],
+    "top_check": {
+      "check": "Did repeat booking fall on the routes where NPS rose, or somewhere else?",
+      "why": "If the routes that love the script are the ones not coming back, the NPS slide is the wrong lead. If repeat fell only where you cut frequency, the schedule is the decision and the script can stay."
+    },
+    "what_would_change_your_mind": "Repeat booking down on the same routes where NPS rose, with on-time performance flat. That says the survey is the wrong headline. A frequency cut on other routes leaves the script alone and opens the schedule.",
+    "teach_me_prompt": "If repeat booking fell only on routes where you cut frequency, and NPS rose elsewhere, what belongs on the first slide?",
+    "framings": []
+  },
+  {
+    "id": "spotify-mau",
+    "company_type": "real",
+    "company": "Spotify",
+    "industry": "Music streaming",
+    "function": "Growth",
+    "difficulty": "medium",
+    "theme": "growth-marketing",
+    "metric": "Monthly active users versus premium subscribers and profit",
+    "direction": "MAU below guide, subscribers and profit up",
+    "size": "626 million MAU versus a 631 million guide; premium subscribers 246 million; profit +45%",
+    "timeframe": "Q2 2024",
+    "context": "Spotify's Q2 2024 revenue rose about 20% and profit rose 45%, with premium subscribers at 246 million, a little above expectations. Monthly active users were 626 million against the company's own 631 million guide. Through the prior year Spotify had been cutting marketing spend, and it raised US premium prices in June 2024. Figures follow the reported quarter. The decision is the training question.",
+    "ambiguity_type": "conflicting_metrics",
+    "blind_text": "A subscription media company beat on paying users and profit, and missed its own guide for monthly active users, after cutting marketing and raising prices.",
+    "decision": "Cut marketing further, since profit is up and the user miss looks harmless?",
+    "angles": [
+      {
+        "check": "Did the miss sit in free users, while premium additions stayed intact?",
+        "tag": "mix",
+        "keywords": ["free", "ad-supported", "premium", "mix", "mau", "subscribers"]
+      },
+      {
+        "check": "Is the MAU miss the result of the marketing cut you already made?",
+        "tag": "cause",
+        "keywords": ["marketing", "spend", "promotion", "cause", "cut"]
+      },
+      {
+        "check": "Did price rises show up as churn, or is churn lower than the last increase?",
+        "tag": "finance",
+        "keywords": ["churn", "price", "arpu", "retention", "increase"]
+      },
+      {
+        "check": "Are you comparing MAU to your own guide, to last year, or to a street estimate? Those are different misses.",
+        "tag": "data",
+        "keywords": ["guide", "consensus", "definition", "estimate", "versus"]
+      },
+      {
+        "check": "Did the user miss concentrate in one region or one month of the quarter?",
+        "tag": "time",
+        "keywords": ["region", "month", "quarter", "where", "when"]
+      },
+      {
+        "check": "What does a further marketing cut do to the free funnel that later becomes premium?",
+        "tag": "volume",
+        "keywords": ["funnel", "conversion", "acquisition", "top of funnel", "volume"]
+      }
+    ],
+    "red_herrings": [
+      {
+        "text": "The share price moved after the print.",
+        "why_irrelevant": "The price is the market's summary. It does not tell you whether free users are the miss, or whether another marketing cut starves next year's subscribers.",
+        "keywords": ["share price", "stock", "after hours"]
+      },
+      {
+        "text": "Gross margin hit a quarterly record.",
+        "why_irrelevant": "Margin can improve because content costs and mix moved. It is not, by itself, evidence that the user miss is harmless.",
+        "keywords": ["gross margin", "record margin", "content cost"]
+      }
+    ],
+    "top_check": {
+      "check": "Did the miss sit in free users, while premium additions stayed intact?",
+      "why": "If paying users are fine and the miss is free listeners you stopped promoting, another cut is a choice about the future funnel, not a free lunch. If premium additions are the soft spot, the profit print is the wrong comfort."
+    },
+    "what_would_change_your_mind": "Premium net adds slowing in the markets where the price rose, not just a free-user miss. That argues against treating the quarter as proof that more cuts are safe.",
+    "based_on": "Spotify's Q2 2024 results: profit and premium subscribers ahead, monthly active users short of the company's guide, after marketing cuts and a US price rise.",
+    "source": {
+      "title": "Spotify reports record quarterly earnings, falls short of user growth target",
+      "outlet": "Reuters",
+      "date": "2024-07-23",
+      "url": "https://www.reuters.com/business/media-telecom/spotify-slightly-misses-revenue-prediction-falls-short-user-growth-target-2024-07-23/"
+    },
+    "teach_me_prompt": "If the MAU miss is entirely free users and premium net adds are intact, what does another marketing cut put at risk?",
+    "framings": []
+  },
+  {
+    "id": "jumia-gmv",
+    "company_type": "real",
+    "company": "Jumia",
+    "industry": "Ecommerce",
+    "function": "Growth",
+    "difficulty": "hard",
+    "theme": "growth-marketing",
+    "metric": "GMV in US dollars versus orders and constant-currency GMV",
+    "direction": "dollars down, orders and constant currency up",
+    "size": "GMV −4% to $720.6 million; constant-currency GMV +28%; orders +6%",
+    "timeframe": "full year 2024",
+    "context": "Jumia's full-year 2024 release shows GMV down 4% to $720.6 million and up 28% in constant currency. Orders rose 6% to 22.7 million. Revenue fell 10% as reported and rose 17% in constant currency. Annual active customers fell from 5.7 million to 5.4 million. Currency translation and a smaller perimeter (exits from markets) sit under the print. Figures are the reported ones. The decision is the training question.",
+    "ambiguity_type": "conflicting_metrics",
+    "blind_text": "An African online retailer reports dollar GMV down, constant-currency GMV up sharply, and orders up. Active customers are slightly down.",
+    "decision": "Tell investors that growth has returned?",
+    "angles": [
+      {
+        "check": "Which growth: orders, constant-currency GMV, dollar GMV, or active customers? They are not the same sentence.",
+        "tag": "data",
+        "keywords": ["definition", "constant currency", "dollar", "orders", "which metric"]
+      },
+      {
+        "check": "How much of the dollar decline is translation, and how much is fewer goods sold?",
+        "tag": "finance",
+        "keywords": ["currency", "translation", "fx", "naira", "devaluation"]
+      },
+      {
+        "check": "Did growth survive the exit from Tunisia and South Africa, or does the perimeter change do the work?",
+        "tag": "mix",
+        "keywords": ["perimeter", "south africa", "tunisia", "exit", "adjusted"]
+      },
+      {
+        "check": "Are orders up because items got cheaper or smaller, while dollar baskets shrank?",
+        "tag": "volume",
+        "keywords": ["basket", "items", "aov", "orders", "units"]
+      },
+      {
+        "check": "Did the fourth quarter accelerate, or is the year a blend that hides a weak recent quarter?",
+        "tag": "time",
+        "keywords": ["quarter", "q4", "acceleration", "recent", "trend"]
+      },
+      {
+        "check": "What do you want the investor to do with the sentence: fund growth, or expect profit?",
+        "tag": "cause",
+        "keywords": ["investor", "decision", "cash", "loss", "guidance"]
+      }
+    ],
+    "red_herrings": [
+      {
+        "text": "Chinese marketplaces were mentioned as a competitive threat.",
+        "why_irrelevant": "Temu and its peers are a strategic risk. They do not choose which of these four numbers is 'growth' in this release.",
+        "keywords": ["temu", "chinese", "shein", "competition"]
+      },
+      {
+        "text": "The company talked about expanding into more cities.",
+        "why_irrelevant": "A plan to add cities is a hope. The release already contains the argument about which growth number is real.",
+        "keywords": ["cities", "rural", "expansion plan"]
+      }
+    ],
+    "top_check": {
+      "check": "Which growth: orders, constant-currency GMV, dollar GMV, or active customers? They are not the same sentence.",
+      "why": "Saying growth has returned without naming the unit lets the listener pick the friendly number. Dollar GMV and active customers still argue for a narrower sentence: orders and local-currency value grew, reported dollars did not."
+    },
+    "what_would_change_your_mind": "Orders, active customers, and constant-currency GMV all up, with dollar GMV down only by a stated translation effect you can show. That supports a careful 'growth returned in the operating business' line. Active customers down keeps the sentence qualified.",
+    "framings": [
+      {
+        "framing": "Growth has returned in the operating business: more orders and much higher constant-currency GMV. Dollar GMV is the translation, and it should be shown beside the operating numbers, not instead of them.",
+        "strength": "stronger",
+        "reason": "It names the unit. An investor can disagree with the emphasis and still see the table."
+      },
+      {
+        "framing": "Growth has returned, full stop, because constant-currency GMV was up 28%.",
+        "strength": "weaker",
+        "reason": "It hides the dollar decline and the smaller active-customer count inside a single triumphant noun."
+      }
+    ],
+    "based_on": "Jumia's full-year 2024 results: reported GMV down, constant-currency GMV and orders up, annual active customers slightly down.",
+    "source": {
+      "title": "Jumia Technologies AG full-year and fourth quarter 2024 results",
+      "outlet": "Jumia exhibit, US SEC",
+      "date": "2025-02-20",
+      "url": "https://www.sec.gov/Archives/edgar/data/1756708/000175670825000005/jumia-ex991q42024.htm"
+    },
+    "teach_me_prompt": "If you tell investors growth has returned, which of orders, dollar GMV, and active customers still refuses that sentence?"
+  },
+  {
+    "id": "luma-mix",
+    "company_type": "fictional",
+    "company": "Luma Market",
+    "industry": "Ecommerce",
+    "function": "Growth",
+    "difficulty": "hard",
+    "theme": "mixed",
+    "metric": "Site conversion rate",
+    "direction": "up",
+    "size": "2 percentage points overall",
+    "timeframe": "six weeks",
+    "context": "Luma Market operates in four countries. Overall site conversion rose from 3% to 5%. Inside every country that was open at the start of the period, conversion fell. A fifth country, launched in week two with a tiny share of sessions and a very high conversion, entered the total. The growth lead wants to copy that new country's homepage everywhere.",
+    "ambiguity_type": "simpsons_slice",
+    "blind_text": "Overall site conversion is up 2 points. Every country that was already live is down. A new, small country is converting very well.",
+    "decision": "Copy the new country's homepage into the other four?",
+    "angles": [
+      {
+        "check": "What share of sessions is the new country, and what happens to the total if you take it out?",
+        "tag": "mix",
+        "keywords": ["mix", "share", "weight", "country", "simpson", "composition"]
+      },
+      {
+        "check": "Is the new country's rate on a few hundred sessions or on a real base?",
+        "tag": "data",
+        "keywords": ["sample", "sessions", "base", "small", "noise"]
+      },
+      {
+        "check": "Did conversion fall inside each old country because of traffic quality, price, or the page itself?",
+        "tag": "cause",
+        "keywords": ["traffic quality", "price", "page", "cause", "paid"]
+      },
+      {
+        "check": "Are the new country's buyers a different intent, such as a single hero product you cannot sell next door?",
+        "tag": "volume",
+        "keywords": ["intent", "product", "hero", "assortment", "demand"]
+      },
+      {
+        "check": "Did the old countries start falling before the new homepage existed?",
+        "tag": "time",
+        "keywords": ["before", "timing", "week", "started"]
+      },
+      {
+        "check": "What does the copied page do to contribution margin if it only works on that country's prices?",
+        "tag": "finance",
+        "keywords": ["margin", "price", "contribution", "discount"]
+      }
+    ],
+    "red_herrings": [
+      {
+        "text": "The new country manager used to work at a larger marketplace.",
+        "why_irrelevant": "A CV does not explain a rate that is mostly mix. The session weight does.",
+        "keywords": ["cv", "hired", "manager", "resume"]
+      },
+      {
+        "text": "A design award shortlisted the new homepage.",
+        "why_irrelevant": "Awards do not tell you whether the other four countries fell for reasons the page cannot fix.",
+        "keywords": ["award", "shortlist", "design prize"]
+      }
+    ],
+    "top_check": {
+      "check": "What share of sessions is the new country, and what happens to the total if you take it out?",
+      "why": "The total rose because a small, hot slice entered the average. Copying its page elsewhere spreads a design and ignores four countries that got worse. The decision is why those four fell."
+    },
+    "what_would_change_your_mind": "The new country already large enough to matter, and a held-out test of its page lifting an old country. Without that, copying the page is how you export a mix illusion.",
+    "framings": [
+      {
+        "framing": "The company did not get better at converting. A small new slice with a different rate entered the average, and the existing countries got worse. Fix the four before you copy the page.",
+        "strength": "stronger",
+        "reason": "It separates mix from a page effect, which is the only split that can change the decision."
+      },
+      {
+        "framing": "Conversion is up, so the new page is the winner and should be the standard.",
+        "strength": "weaker",
+        "reason": "It treats a weighted average as a treatment effect. The existing countries moved the other way."
+      }
+    ],
+    "teach_me_prompt": "If you remove the new country and the overall rate falls, what happens to the case for copying its homepage?"
+  }
+]
