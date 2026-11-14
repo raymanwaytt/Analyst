@@ -21,6 +21,12 @@ npm run build
 
 `npm run build` writes a static site to `dist/`.
 
+## Look
+
+The illustrations are original inline SVGs drawn for Prior. There is no third-party artwork and nothing is loaded from another site. Tag colours map the bank’s eight tags onto a fixed palette: time is timing (sky), volume is the metric (amber), mix is segment (violet), supply is ops (teal), cause is risk (rose), data is data (blue), external is external (lime), finance is money (orange). Difficulty is emerald, amber, or fuchsia. The bank has no separate customer tag.
+
+Motion is entrance, hover, press, a staggered checklist, and a short burst when a logged rep scores 80 or higher. `prefers-reduced-motion` turns those animations off. Print hides the tab bar and flattens the dark header.
+
 ## The day
 
 Unlocks use **Africa/Lagos** (WAT, UTC+1), not the device timezone.

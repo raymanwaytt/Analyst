@@ -53,7 +53,7 @@ export function ReadForm({ rep, onChange, onLock }: { rep: Rep; onChange: (rep: 
                 type="button"
                 aria-pressed={selected}
                 onClick={() => onChange({ ...rep, confidence: value })}
-                className={`min-h-11 rounded-md border text-sm font-medium ${selected ? "border-rust bg-rust text-paper" : "border-line bg-card"}`}
+                className={`min-h-11 rounded-xl border text-sm font-semibold transition active:scale-95 motion-reduce:active:scale-100 ${selected ? "border-indigo-700 bg-indigo-700 text-white" : "border-indigo-100 bg-white"}`}
               >
                 {value}
               </button>
@@ -80,7 +80,7 @@ export function ReadForm({ rep, onChange, onLock }: { rep: Rep; onChange: (rep: 
             return (
               <label
                 key={type}
-                className={`flex min-h-11 cursor-pointer gap-3 rounded-md border px-3 py-2 ${selected ? "border-rust bg-[#f8efe8]" : "border-line bg-card"}`}
+                className={`flex min-h-11 cursor-pointer gap-3 rounded-xl border px-3 py-2 transition ${selected ? "border-fuchsia-400 bg-fuchsia-50" : "border-indigo-100 bg-white hover:border-indigo-300"}`}
               >
                 <input
                   type="radio"
@@ -117,7 +117,7 @@ export function ReadForm({ rep, onChange, onLock }: { rep: Rep; onChange: (rep: 
               value={line}
               onChange={(event) => setLine(index, event.target.value)}
               aria-label={`Investigation ${index + 1}`}
-              className="min-h-11 w-full rounded-md border border-line bg-card px-3 text-base"
+              className="min-h-11 w-full rounded-xl border border-indigo-100 bg-white px-3 text-base shadow-sm"
               placeholder={index === 0 ? "Chat volume, not just wait time" : "Another check"}
             />
             {rep.investigation.length > 2 ? (
@@ -135,7 +135,7 @@ export function ReadForm({ rep, onChange, onLock }: { rep: Rep; onChange: (rep: 
         ))}
         <button
           type="button"
-          className="text-sm font-medium text-rust"
+          className="text-sm font-semibold text-indigo-700"
           onClick={() => onChange({ ...rep, investigation: [...rep.investigation, ""] })}
         >
           Add a check

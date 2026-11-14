@@ -12,6 +12,7 @@ import { ReadForm } from "./ui/ReadForm"
 import { Reveal } from "./ui/Reveal"
 import { Stats } from "./ui/Stats"
 import { Today } from "./ui/Today"
+import { HeroMark, NavIcon } from "./ui/art"
 import { Button, Card } from "./ui/primitives"
 
 type Tab = "today" | "log" | "stats" | "library"
@@ -92,16 +93,18 @@ export function App() {
 
   if (error) {
     return (
-      <main className="mx-auto max-w-lg px-5 py-10">
-        <h1 className="font-serif text-3xl">Prior</h1>
+      <main className="mx-auto max-w-xl px-5 py-10">
+        <HeroMark />
+        <h1 className="mt-4 font-serif text-3xl">Prior</h1>
         <p className="mt-3 text-sm">{error}</p>
       </main>
     )
   }
   if (!state) {
     return (
-      <main className="mx-auto max-w-lg px-5 py-16">
-        <p className="font-serif text-3xl">Prior</p>
+      <main className="mx-auto flex max-w-xl flex-col items-start px-5 py-16">
+        <HeroMark className="art-float h-16 w-16" />
+        <p className="mt-4 font-serif text-3xl">Prior</p>
         <p className="mt-2 text-sm text-muted">Opening today’s brief.</p>
       </main>
     )
@@ -122,16 +125,22 @@ export function App() {
         : "today"
 
   return (
-    <div className="mx-auto min-h-screen max-w-lg px-5 pb-28 pt-6">
-      <header className="mb-5">
-        <div className="flex items-baseline justify-between gap-3">
-          <p className="font-serif text-3xl tracking-tight">Prior</p>
-          <p className="text-xs text-muted">{formatLagosStamp(now)}</p>
+    <div className="mx-auto min-h-screen max-w-xl px-4 pb-32 pt-5">
+      <header className="hero print-flat motion-safe:animate-rise mb-5 overflow-hidden rounded-3xl shadow-lift">
+        <div className="flex items-start justify-between gap-3 p-5">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-fuchsia-200">Daily judgment</p>
+            <p className="font-serif text-4xl tracking-tight">Prior</p>
+            <p className="text-sm text-indigo-100">One metric. One decision.</p>
+          </div>
+          <HeroMark className="art-float h-16 w-16" />
         </div>
-        <p className="text-sm text-muted">One metric. One decision.</p>
-        <p className="mt-2 text-sm">
-          {level.name} · {streak} {streak === 1 ? "day" : "days"}
-        </p>
+        <div className="flex items-center justify-between gap-3 bg-black/25 px-5 py-3 text-sm text-white">
+          <p>
+            {level.name} · {streak} {streak === 1 ? "day" : "days"}
+          </p>
+          <p>{formatLagosStamp(now)}</p>
+        </div>
       </header>
       {redoId ? (
         <Redo repId={redoId} state={state} scenarios={byId} update={update} onBack={() => go("#/log")} />
@@ -144,8 +153,8 @@ export function App() {
       ) : (
         <Library state={state} scenarios={bank.scenarios} issues={bank.issues} update={update} />
       )}
-      <nav className="fixed inset-x-0 bottom-0 border-t border-line bg-paper/95 backdrop-blur">
-        <div className="mx-auto grid max-w-lg grid-cols-4 px-2 pb-[env(safe-area-inset-bottom)]">
+      <nav className="no-print fixed inset-x-0 bottom-0 z-20 border-t border-indigo-100 bg-white/90 backdrop-blur">
+        <div className="mx-auto grid max-w-xl grid-cols-4 px-2 pb-[env(safe-area-inset-bottom)]">
           {(
             [
               ["today", "Today"],
@@ -153,16 +162,22 @@ export function App() {
               ["stats", "Stats"],
               ["library", "Library"],
             ] as const
-          ).map(([id, label]) => (
-            <button
-              key={id}
-              type="button"
-              onClick={() => go(`#/${id}`)}
-              className={`min-h-14 text-sm ${tab === id && !redoId ? "font-semibold text-ink" : "text-muted"}`}
-            >
-              {label}
-            </button>
-          ))}
+          ).map(([id, label]) => {
+            const active = tab === id && !redoId
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => go(`#/${id}`)}
+                className={`flex min-h-16 flex-col items-center justify-center gap-1 text-xs font-semibold transition active:scale-95 motion-reduce:active:scale-100 ${active ? "text-indigo-800" : "text-muted"}`}
+              >
+                <span className={`flex h-8 w-12 items-center justify-center rounded-full ${active ? "bg-indigo-700 text-white shadow-card" : ""}`}>
+                  <NavIcon name={id} />
+                </span>
+                {label}
+              </button>
+            )
+          })}
         </div>
       </nav>
     </div>
@@ -214,7 +229,7 @@ function Redo({
         Back
       </button>
       <Card>
-        <p className="text-xs uppercase tracking-wide text-muted">Cold redo</p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-fuchsia-700">Cold redo</p>
         <h1 className="mt-2 font-serif text-2xl">{scenario.blind_text}</h1>
         <p className="mt-3 text-sm">
           <span className="font-semibold">Decision. </span>

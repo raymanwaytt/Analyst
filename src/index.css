@@ -9,9 +9,13 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background: #f3efe6;
-  color: #1a1714;
+  color: #16142a;
   font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  background:
+    radial-gradient(900px 420px at -8% -10%, rgba(99, 102, 241, 0.38), transparent 55%),
+    radial-gradient(720px 380px at 110% 0%, rgba(244, 114, 182, 0.32), transparent 48%),
+    radial-gradient(820px 520px at 80% 110%, rgba(45, 212, 191, 0.24), transparent 46%),
+    #f4f1fb;
 }
 
 #root {
@@ -19,7 +23,7 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid #8d3418;
+  outline: 2px solid #4338ca;
   outline-offset: 2px;
 }
 
@@ -34,4 +38,83 @@ textarea,
 input[type="text"],
 input[type="number"] {
   font-size: 16px;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes burst {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.3);
+  }
+  to {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1);
+  }
+}
+
+.hero {
+  background: linear-gradient(135deg, #1b1740 0%, #312e81 46%, #86198f 100%);
+  color: #fff;
+}
+
+.art-float {
+  animation: float 4.5s ease-in-out infinite;
+}
+
+.confetti {
+  animation: burst 0.9s ease-out both;
+}
+
+.check-in {
+  animation: rise 0.45s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .art-float,
+  .confetti,
+  .check-in {
+    animation: none !important;
+  }
+}
+
+@media print {
+  body {
+    background: white !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-flat {
+    background: white !important;
+    color: #16142a !important;
+    box-shadow: none !important;
+  }
+
+  .art-float,
+  .confetti,
+  .check-in {
+    animation: none !important;
+  }
 }

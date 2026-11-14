@@ -1,5 +1,6 @@
 import type { AppState, Scenario } from "../domain/types"
 import { TAG_LABEL } from "../domain/labels"
+import { TAG_BAR, TAG_CHIP } from "./chips"
 import { calibrationBuckets, calibrationSentence, levelFor, marksFor, tagStats, totalXp } from "../domain/scoring"
 import { streakCount } from "../domain/schedule"
 import { eachDate, formatDay, lagosDate } from "../domain/time"
@@ -66,7 +67,7 @@ export function Stats({
           <div className="mt-3 flex h-24 items-end gap-1">
             {trend.map((point) => (
               <div key={point.date} className="flex-1" title={`${formatDay(point.date)} ${Math.round(point.score * 100)}`}>
-                <div className="w-full rounded-sm bg-rust" style={{ height: `${Math.max(8, point.score * 100)}%` }} />
+                <div className="w-full rounded-md bg-gradient-to-t from-indigo-700 to-fuchsia-400" style={{ height: `${Math.max(8, point.score * 100)}%` }} />
               </div>
             ))}
           </div>
@@ -78,15 +79,17 @@ export function Stats({
         <ul className="mt-3 space-y-3">
           {tags.map((tag) => (
             <li key={tag.tag}>
-              <div className="flex justify-between text-sm">
-                <span>{TAG_LABEL[tag.tag]}</span>
+              <div className="flex items-center justify-between gap-2 text-sm">
+                <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ring-1 ring-inset ${TAG_CHIP[tag.tag]}`}>
+                  {TAG_LABEL[tag.tag]}
+                </span>
                 <span className="text-muted">
                   {tag.exposed ? `${tag.hit}/${tag.total}` : "No exposure yet"}
                 </span>
               </div>
-              <div className="mt-1 h-2 rounded-full bg-line">
+              <div className="mt-1 h-2 rounded-full bg-indigo-100">
                 <div
-                  className="h-2 rounded-full bg-ink"
+                  className={`h-2 rounded-full ${TAG_BAR[tag.tag]}`}
                   style={{ width: tag.total ? `${(tag.hit / tag.total) * 100}%` : "0%" }}
                 />
               </div>
@@ -133,14 +136,14 @@ export function Stats({
             return (
               <div
                 key={date}
-                className={`rounded py-2 ${logged ? "bg-ink text-paper" : bridged ? "bg-[#e7d3b4]" : "bg-paper"}`}
+                className={`rounded-lg py-2 font-medium ${logged ? "bg-indigo-700 text-white" : bridged ? "bg-amber-200 text-amber-950" : "bg-indigo-50 text-ink"}`}
               >
                 {Number(date.slice(-2))}
               </div>
             )
           })}
         </div>
-        <p className="mt-2 text-xs text-muted">Ink is a logged day. Tan is a freeze. {state.freeze.remaining} freeze tokens left in {state.freeze.month}.</p>
+        <p className="mt-2 text-xs text-muted">Indigo is a logged day. Amber is a freeze. {state.freeze.remaining} freeze tokens left in {state.freeze.month}.</p>
       </Card>
     </div>
   )

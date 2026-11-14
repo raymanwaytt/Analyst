@@ -157,7 +157,7 @@ export function Library({
               type="button"
               aria-pressed={state.settings.blind === mode}
               onClick={() => update((current) => ({ ...current, settings: { ...current.settings, blind: mode } }))}
-              className={`min-h-11 rounded-md border text-sm capitalize ${state.settings.blind === mode ? "border-ink bg-ink text-paper" : "border-line bg-card"}`}
+              className={`min-h-11 rounded-xl border text-sm font-semibold capitalize transition active:scale-[0.98] motion-reduce:active:scale-100 ${state.settings.blind === mode ? "border-indigo-700 bg-indigo-700 text-white" : "border-indigo-100 bg-white"}`}
             >
               {mode}
             </button>
