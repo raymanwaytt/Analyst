@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { TAGS } from "../domain/types"
 import type { HypothesisOutcome, Rep, Scenario } from "../domain/types"
-import { AMBIGUITY_LABEL, TAG_LABEL } from "../domain/labels"
+import { AMBIGUITY_LABEL } from "../domain/labels"
 import {
   chasedHerrings,
   debrief,
@@ -11,6 +11,8 @@ import {
   teachIsGeneric,
   xpFor,
 } from "../domain/scoring"
+import { Celebration } from "./art"
+import { TagChip } from "./chips"
 import { Button, Field, TextArea } from "./primitives"
 
 export function Reveal({
@@ -41,6 +43,7 @@ export function Reveal({
 
   const canFinish =
     rep.mindChangerRevealed && rep.hypothesisOutcome !== "" && rep.teachAnswer.trim().length > 0
+  let order = 0
 
   return (
     <div className="space-y-6">
@@ -72,16 +75,22 @@ export function Reveal({
         </div>
         {grouped.map((group) => (
           <div key={group.tag}>
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-muted">{TAG_LABEL[group.tag]}</h3>
+            <TagChip tag={group.tag} />
             <ul className="mt-2 space-y-2">
               {group.rows.map(({ angle, index }) => {
                 const suggested = rep.suggestions[index]
+                const delay = order
+                order += 1
                 return (
-                  <li key={angle.check} className="rounded-md border border-line bg-card px-3 py-2">
+                  <li
+                    key={angle.check}
+                    className="check-in rounded-xl border border-indigo-100 bg-white px-3 py-2 shadow-sm"
+                    style={{ animationDelay: `${delay * 55}ms` }}
+                  >
                     <label className="flex gap-3">
                       <input
                         type="checkbox"
-                        className="mt-1 h-5 w-5 accent-rust"
+                        className="mt-1 h-5 w-5 accent-indigo-700"
                         checked={Boolean(rep.ticks[index])}
                         disabled={done}
                         onChange={() => {
@@ -92,7 +101,7 @@ export function Reveal({
                       <span className="text-sm leading-6">
                         {angle.check}
                         {suggested ? (
-                          <span className="mt-1 block text-xs text-warn">Suggested from your wording</span>
+                          <span className="mt-1 block text-xs font-medium text-amber-800">Suggested from your wording</span>
                         ) : null}
                       </span>
                     </label>
@@ -104,13 +113,13 @@ export function Reveal({
         ))}
       </section>
 
-      <section className="rounded-lg border border-ink bg-ink px-4 py-4 text-paper">
+      <section className="hero print-flat rounded-2xl px-4 py-4 shadow-lift">
         <h2 className="font-serif text-xl">The check that moves the decision</h2>
         <p className="mt-2 text-sm leading-6">{note.line}</p>
       </section>
 
       {herrings.length > 0 ? (
-        <section className="rounded-lg border border-[#e4c9a2] bg-[#fbf3e6] px-4 py-3">
+        <section className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-amber-950">
           <h2 className="text-sm font-semibold">You chased a detail that does not decide this</h2>
           <ul className="mt-2 space-y-2 text-sm">
             {herrings.map((herring) => (
@@ -127,7 +136,7 @@ export function Reveal({
           <h2 className="font-serif text-xl">Framings</h2>
           <p className="text-sm text-muted">Hard briefs do not have a single triumphant sentence. These two are not equal.</p>
           {scenario.framings.map((framing) => (
-            <article key={framing.framing} className="rounded-md border border-line bg-card px-3 py-3">
+            <article key={framing.framing} className="rounded-xl border border-indigo-100 bg-white px-3 py-3">
               <p className="text-xs font-semibold uppercase tracking-wide text-muted">{framing.strength}</p>
               <p className="mt-1 text-sm">{framing.framing}</p>
               <p className="mt-2 text-sm text-muted">{framing.reason}</p>
@@ -174,7 +183,7 @@ export function Reveal({
               disabled={done}
               aria-pressed={rep.hypothesisOutcome === outcome}
               onClick={() => onChange({ ...rep, hypothesisOutcome: outcome })}
-              className={`min-h-11 rounded-md border text-sm capitalize ${rep.hypothesisOutcome === outcome ? "border-rust bg-rust text-paper" : "border-line bg-card"}`}
+              className={`min-h-11 rounded-xl border text-sm font-semibold capitalize transition active:scale-[0.98] motion-reduce:active:scale-100 ${rep.hypothesisOutcome === outcome ? "border-indigo-700 bg-indigo-700 text-white" : "border-indigo-100 bg-white"}`}
             >
               {outcome}
             </button>
@@ -212,29 +221,36 @@ export function Reveal({
       </Field>
 
       {scenario.company_type === "real" && scenario.source ? (
-        <section className="rounded-md border border-line bg-card px-3 py-3 text-sm">
+        <section className="rounded-xl border border-indigo-100 bg-white px-3 py-3 text-sm">
           <p>Based on a reported event. The numbers in the brief are illustrative, not a claim of exact figures.</p>
           {scenario.based_on ? <p className="mt-2">{scenario.based_on}</p> : null}
           <p className="mt-2">
             The reported story is the link. The decision still turns on the check above.
           </p>
-          <a className="mt-2 inline-block font-medium text-rust underline" href={scenario.source.url} target="_blank" rel="noreferrer">
+          <a className="mt-2 inline-block font-semibold text-indigo-700 underline" href={scenario.source.url} target="_blank" rel="noreferrer">
             {scenario.source.title} · {scenario.source.outlet} · {scenario.source.date}
           </a>
         </section>
       ) : null}
 
-      <section className="rounded-lg border border-line bg-paper px-4 py-3 text-sm">
+      <section className="rounded-2xl border border-indigo-100 bg-white px-4 py-3 text-sm shadow-card">
         <p>
           Lever {marks.topHit ? "hit" : "missed"} · Ambiguity {marks.ambiguityCorrect ? "named" : "missed"} (
           {AMBIGUITY_LABEL[scenario.ambiguity_type]}) · Checklist {Math.round(marks.coverage * 100)}%
         </p>
         <p className="mt-1 text-muted">Rep score {Math.round(marks.score * 100)} · {xpFor({ ...rep, status: "complete" }, scenario)} XP if you log it now</p>
+        <div className="mt-2 h-2 overflow-hidden rounded-full bg-indigo-100">
+          <div className="h-2 rounded-full bg-gradient-to-r from-indigo-600 to-fuchsia-500" style={{ width: `${Math.round(marks.score * 100)}%` }} />
+        </div>
         {earlier ? <BeforeAfter earlier={earlier} current={rep} scenario={scenario} /> : null}
       </section>
 
+      {done && marks.score >= 0.8 ? (
+        <Celebration>Strong rep. Score {Math.round(marks.score * 100)}. That one is worth keeping.</Celebration>
+      ) : null}
+
       {done ? (
-        <p className="text-sm font-medium text-pine">Logged.</p>
+        <p className="text-sm font-semibold text-emerald-800">Logged.</p>
       ) : (
         <Button
           type="button"

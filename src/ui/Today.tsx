@@ -6,6 +6,8 @@ import { isBlindDay, latestUnlockDate } from "../domain/schedule"
 import { daysBetween, formatDay, lagosDate, lagosHour } from "../domain/time"
 import { sundayReview } from "../domain/review"
 import { debrief } from "../domain/scoring"
+import { EmptyBankArt, Scene } from "./art"
+import { DifficultyChip } from "./chips"
 import { ReadForm } from "./ReadForm"
 import { Reveal } from "./Reveal"
 import { Button, Card, TextArea } from "./primitives"
@@ -46,7 +48,7 @@ export function Today({
   return (
     <div className="space-y-4">
       {waiting ? (
-        <p className="rounded-md border border-line bg-card px-3 py-2 text-sm">
+        <p className="rounded-2xl border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-950">
           Today’s brief unlocks at 08:00 WAT. Yesterday’s is open.
         </p>
       ) : null}
@@ -63,7 +65,7 @@ export function Today({
                 key={date}
                 type="button"
                 onClick={() => setPicked(date)}
-                className={`shrink-0 rounded-full border px-3 py-1 text-xs ${active ? "border-ink bg-ink text-paper" : "border-line bg-card"}`}
+                className={`shrink-0 rounded-full border px-3 py-1.5 text-xs font-semibold transition active:scale-95 motion-reduce:active:scale-100 ${active ? "border-indigo-700 bg-indigo-700 text-white shadow-card" : done ? "border-emerald-200 bg-emerald-50 text-emerald-950" : "border-indigo-100 bg-white text-ink"}`}
               >
                 {formatDay(date)}
                 {done ? " · logged" : ""}
@@ -104,7 +106,7 @@ export function Today({
               return (
                 <li key={rep.id} className="flex items-center justify-between gap-3 text-sm">
                   <span>{item?.metric ?? rep.scenarioId}</span>
-                  <button type="button" className="font-medium text-rust" onClick={() => onRedo(rep.id)}>
+                  <button type="button" className="font-semibold text-indigo-700" onClick={() => onRedo(rep.id)}>
                     Redo
                   </button>
                 </li>
@@ -115,8 +117,9 @@ export function Today({
       ) : null}
 
       {!scenario ? (
-        <Card>
-          <h2 className="font-serif text-xl">The bank is used up</h2>
+        <Card className="text-center">
+          <EmptyBankArt />
+          <h2 className="mt-2 font-serif text-xl">The bank is used up</h2>
           <p className="mt-2 text-sm leading-6">
             Every scenario has already been assigned. Import another JSON file from Library, or redo a weak brief from the log. Missed days stay on the date strip above.
           </p>
@@ -160,24 +163,34 @@ function Brief({
   const blind = rep?.blind ?? false
   return (
     <div className="space-y-5">
-      <Card>
-        <p className="text-xs font-medium uppercase tracking-wide text-muted">
-          {scenario.company_type === "real"
-            ? "Based on a real reported event. Numbers are illustrative, not exact."
-            : "Practice scenario, fictional."}
-        </p>
-        <p className="mt-2 text-xs text-muted">
-          {scenario.difficulty} · {THEME_LABEL[scenario.theme]}
-          {blind ? " · Blind round" : ""}
-        </p>
+      <Card className="overflow-hidden">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-fuchsia-700">
+              {scenario.company_type === "real"
+                ? "Based on a real reported event. Numbers are illustrative, not exact."
+                : "Practice scenario, fictional."}
+            </p>
+            <div className="mt-2 flex flex-wrap items-center gap-2">
+              <DifficultyChip difficulty={scenario.difficulty} />
+              <span className="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-semibold text-indigo-900 ring-1 ring-inset ring-indigo-200">
+                {THEME_LABEL[scenario.theme]}
+              </span>
+              {blind ? (
+                <span className="rounded-full bg-night px-2.5 py-0.5 text-xs font-semibold text-white">Blind round</span>
+              ) : null}
+            </div>
+          </div>
+          <Scene industry={blind ? "" : scenario.industry} theme={scenario.theme} />
+        </div>
         {!blind ? (
-          <p className="mt-3 text-sm">
+          <p className="mt-3 text-sm font-medium text-indigo-900">
             {scenario.company} · {scenario.industry} · {scenario.function}
           </p>
         ) : null}
-        <h1 className="mt-3 font-serif text-2xl leading-snug">{blind ? scenario.blind_text : scenario.blind_text}</h1>
+        <h1 className="mt-3 font-serif text-2xl leading-snug">{scenario.blind_text}</h1>
         {!blind ? <p className="mt-3 text-sm leading-6 text-muted">{scenario.context}</p> : null}
-        <p className="mt-4 border-t border-line pt-3 text-sm">
+        <p className="mt-4 rounded-xl bg-gradient-to-r from-indigo-50 to-fuchsia-50 px-3 py-3 text-sm">
           <span className="font-semibold">Decision. </span>
           {scenario.decision}
         </p>
