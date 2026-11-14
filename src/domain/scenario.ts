@@ -60,12 +60,23 @@ const scenarioSchema = z.object({
       title: z.string().min(1),
       outlet: z.string().min(1),
       date: z.string().min(4),
-      url: z.string().url(),
+      url: z.string().refine((value) => httpUrl(value) !== null, "Use an http or https link."),
     })
     .optional(),
 })
 
 const KNOWN_KEYS = new Set(Object.keys(scenarioSchema.shape))
+
+/** Only ordinary web links. `javascript:` and `data:` parse as URLs and must not become hrefs. */
+export function httpUrl(value: string): string | null {
+  try {
+    const url = new URL(value)
+    if (url.protocol !== "http:" && url.protocol !== "https:") return null
+    return url.toString()
+  } catch {
+    return null
+  }
+}
 
 export interface ValidationResult {
   scenarios: Scenario[]

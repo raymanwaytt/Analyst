@@ -2,6 +2,7 @@ import { AMBIGUITY_TYPES } from "../domain/types"
 import type { AmbiguityType, Rep } from "../domain/types"
 import { AMBIGUITY_HINT, AMBIGUITY_LABEL } from "../domain/labels"
 import { formGaps } from "../domain/reps"
+import { FORM_PLACEHOLDERS } from "./formCopy"
 import { Button, Field, TextArea } from "./primitives"
 
 export function ReadForm({ rep, onChange, onLock }: { rep: Rep; onChange: (rep: Rep) => void; onLock: () => void }) {
@@ -25,7 +26,7 @@ export function ReadForm({ rep, onChange, onLock }: { rep: Rep; onChange: (rep: 
             rows={2}
             value={rep.domainGuess}
             onChange={(event) => onChange({ ...rep, domainGuess: event.target.value })}
-            placeholder="Travel support, consumer credit, telecom…"
+            placeholder={FORM_PLACEHOLDERS.domain}
           />
         </Field>
       ) : null}
@@ -38,7 +39,7 @@ export function ReadForm({ rep, onChange, onLock }: { rep: Rep; onChange: (rep: 
           rows={4}
           value={rep.hypothesis}
           onChange={(event) => onChange({ ...rep, hypothesis: event.target.value })}
-          placeholder="Wait time rose because weekend volume outgrew the crew, so I would add Saturday shifts."
+          placeholder={FORM_PLACEHOLDERS.hypothesis}
         />
       </Field>
 
@@ -68,7 +69,7 @@ export function ReadForm({ rep, onChange, onLock }: { rep: Rep; onChange: (rep: 
           rows={2}
           value={rep.premortem}
           onChange={(event) => onChange({ ...rep, premortem: event.target.value })}
-          placeholder="The queue was weekday disruption chats. Weekend shifts never touched it."
+          placeholder={FORM_PLACEHOLDERS.premortem}
         />
       </Field>
 
@@ -104,7 +105,7 @@ export function ReadForm({ rep, onChange, onLock }: { rep: Rep; onChange: (rep: 
           rows={2}
           value={rep.killCheck}
           onChange={(event) => onChange({ ...rep, killCheck: event.target.value })}
-          placeholder="Weekday versus weekend volume, split by contact reason."
+          placeholder={FORM_PLACEHOLDERS.killCheck}
         />
       </Field>
 
@@ -117,8 +118,8 @@ export function ReadForm({ rep, onChange, onLock }: { rep: Rep; onChange: (rep: 
               value={line}
               onChange={(event) => setLine(index, event.target.value)}
               aria-label={`Investigation ${index + 1}`}
-              className="min-h-11 w-full rounded-xl border border-indigo-100 bg-white px-3 text-base shadow-sm"
-              placeholder={index === 0 ? "Chat volume, not just wait time" : "Another check"}
+              className="min-h-11 w-full rounded-xl border border-indigo-100 bg-white px-3 text-base shadow-sm placeholder:text-slate-500"
+              placeholder={index === 0 ? FORM_PLACEHOLDERS.investigation : FORM_PLACEHOLDERS.investigationMore}
             />
             {rep.investigation.length > 2 ? (
               <button

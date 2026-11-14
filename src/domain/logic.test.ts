@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest"
 import seed from "../../scenarios/seed.json"
 import { mergeBackup } from "./backup"
-import { validateScenarioFile } from "./scenario"
+import { leakedRun } from "./leak"
+import { httpUrl, validateScenarioFile } from "./scenario"
+import { FORM_PLACEHOLDERS } from "../ui/formCopy"
+import { AMBIGUITY_HINT } from "./labels"
+import formSource from "../ui/ReadForm.tsx?raw"
+import copySource from "../ui/formCopy.ts?raw"
 import {
   calibrationSentence,
   chasedHerrings,
@@ -196,6 +201,42 @@ describe("scenarios file", () => {
     expect(broken.scenarios).toHaveLength(0)
     expect(broken.issues.some((issue) => issue.message.includes("source"))).toBe(true)
 
+    const scripted = validateScenarioFile([
+      {
+        id: "bad-link",
+        company_type: "real",
+        company: "Example",
+        industry: "Bank",
+        function: "Ops",
+        difficulty: "easy",
+        theme: "ops",
+        metric: "Uptime",
+        direction: "down",
+        size: "a lot",
+        timeframe: "a week",
+        context: "Something broke in production last week.",
+        ambiguity_type: "none",
+        blind_text: "Uptime fell last week.",
+        decision: "Page the vendor?",
+        angles: [
+          { check: "Did the failure cluster in one channel only", tag: "supply", keywords: ["channel"] },
+          { check: "Was volume unusually high that morning", tag: "volume", keywords: ["volume"] },
+          { check: "Did the definition of uptime change", tag: "data", keywords: ["definition"] },
+        ],
+        red_herrings: [],
+        top_check: {
+          check: "Did the failure cluster in one channel only",
+          why: "A single channel points at a release, not a capacity buy.",
+        },
+        what_would_change_your_mind: "A second channel failing the same way.",
+        source: { title: "Note", outlet: "Desk", date: "2024-01-01", url: "javascript:alert(1)" },
+      },
+    ])
+    expect(scripted.scenarios).toHaveLength(0)
+    expect(httpUrl("javascript:alert(1)")).toBeNull()
+    expect(httpUrl("data:text/html,hi")).toBeNull()
+    expect(httpUrl("https://example.com/story")).toBe("https://example.com/story")
+
     const generated = validateScenarioFile([
       {
         id: "missing-words",
@@ -228,6 +269,32 @@ describe("scenarios file", () => {
     ])
     expect(generated.scenarios[0].angles[0].keywords.length).toBeGreaterThan(0)
     expect(generated.issues.some((issue) => issue.severity === "warning")).toBe(true)
+  })
+})
+
+describe("pre-lock copy", () => {
+  const surface = [formSource, copySource, ...Object.values(FORM_PLACEHOLDERS), ...Object.values(AMBIGUITY_HINT)].join("\n")
+
+  const retired = [
+    "Wait time rose because weekend volume outgrew the crew, so I would add Saturday shifts.",
+    "The queue was weekday disruption chats. Weekend shifts never touched it.",
+    "Weekday versus weekend volume, split by contact reason.",
+    "Chat volume, not just wait time",
+  ]
+
+  it("does not show a retired answer placeholder", () => {
+    for (const line of retired) expect(surface).not.toContain(line)
+  })
+
+  it("does not repeat a locked answer before the checklist opens", () => {
+    for (const scenario of scenarios) {
+      expect(leakedRun(surface, scenario)).toBeNull()
+    }
+  })
+
+  it("still catches the old placeholder against the travel brief", () => {
+    const route = scenarios.find((scenario) => scenario.id === "route-wait") as Scenario
+    expect(leakedRun(retired.join(" "), route)).not.toBeNull()
   })
 })
 
