@@ -41,7 +41,7 @@ export function TextArea({ className = "", ...props }: TextareaHTMLAttributes<HT
   return (
     <textarea
       {...props}
-      className={`w-full rounded-xl border border-indigo-100 bg-white px-3 py-2 text-base leading-6 text-ink shadow-sm placeholder:text-indigo-300 focus:border-indigo-400 ${className}`}
+      className={`w-full rounded-xl border border-indigo-100 bg-white px-3 py-2 text-base leading-6 text-ink shadow-sm placeholder:text-slate-500 focus:border-indigo-400 ${className}`}
     />
   )
 }

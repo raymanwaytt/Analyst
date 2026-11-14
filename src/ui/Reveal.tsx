@@ -2,6 +2,7 @@ import { useState } from "react"
 import { TAGS } from "../domain/types"
 import type { HypothesisOutcome, Rep, Scenario } from "../domain/types"
 import { AMBIGUITY_LABEL } from "../domain/labels"
+import { httpUrl } from "../domain/scenario"
 import {
   chasedHerrings,
   debrief,
@@ -43,6 +44,7 @@ export function Reveal({
 
   const canFinish =
     rep.mindChangerRevealed && rep.hypothesisOutcome !== "" && rep.teachAnswer.trim().length > 0
+  const sourceHref = scenario.source ? httpUrl(scenario.source.url) : null
   let order = 0
 
   return (
@@ -227,9 +229,15 @@ export function Reveal({
           <p className="mt-2">
             The reported story is the link. The decision still turns on the check above.
           </p>
-          <a className="mt-2 inline-block font-semibold text-indigo-700 underline" href={scenario.source.url} target="_blank" rel="noreferrer">
-            {scenario.source.title} · {scenario.source.outlet} · {scenario.source.date}
-          </a>
+          {sourceHref ? (
+            <a className="mt-2 inline-block font-semibold text-indigo-700 underline" href={sourceHref} target="_blank" rel="noreferrer">
+              {scenario.source.title} · {scenario.source.outlet} · {scenario.source.date}
+            </a>
+          ) : (
+            <p className="mt-2 font-semibold">
+              {scenario.source.title} · {scenario.source.outlet} · {scenario.source.date}
+            </p>
+          )}
         </section>
       ) : null}
 
